@@ -1,0 +1,906 @@
+{
+  "feature": "Spring Boot Backend for Voice-to-Insight Tracker",
+  "workflow_type": "feature",
+  "workflow_rationale": "Greenfield implementation of a complete backend system with multiple integrated components (security, async processing, AI integration, data persistence). This requires full project setup, architecture design, and systematic phase-by-phase implementation.",
+  "phases": [
+    {
+      "id": "phase-1-infrastructure",
+      "name": "Infrastructure Setup",
+      "type": "setup",
+      "description": "Set up Maven project structure, Docker Compose for services, and Spring Boot configuration",
+      "depends_on": [],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-1-1",
+          "description": "Create Maven pom.xml with Spring Boot dependencies",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/pom.xml"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn dependency:resolve",
+            "expected": "BUILD SUCCESS"
+          },
+          "status": "completed",
+          "notes": "Created Maven pom.xml with Spring Boot 3.4.1, Java 21, and all required dependencies including Spring AI, Spring Security, RabbitMQ, Redis, PostgreSQL, and JWT.",
+          "updated_at": "2026-02-26T00:16:06.299561+00:00"
+        },
+        {
+          "id": "subtask-1-2",
+          "description": "Create Docker Compose for PostgreSQL, Redis, RabbitMQ",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/docker-compose.yml"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && docker-compose config",
+            "expected": "Valid YAML configuration"
+          },
+          "status": "completed",
+          "notes": "Successfully created Docker Compose configuration with PostgreSQL 16, Redis 7, and RabbitMQ 3.",
+          "updated_at": "2026-02-26T00:18:11.304685+00:00"
+        },
+        {
+          "id": "subtask-1-3",
+          "description": "Create application.yml with database, Redis, RabbitMQ, Spring AI config",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/resources/application.yml"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn validate",
+            "expected": "BUILD SUCCESS"
+          },
+          "status": "completed",
+          "notes": "Successfully created application.yml with comprehensive configuration for database, Redis, RabbitMQ, and Spring AI.",
+          "updated_at": "2026-02-26T00:20:12.766614+00:00"
+        },
+        {
+          "id": "subtask-1-4",
+          "description": "Create main application entry point",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/ProductivityTrackerApplication.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds"
+          },
+          "status": "completed",
+          "notes": "Successfully created ProductivityTrackerApplication.java as the main Spring Boot application entry point.",
+          "updated_at": "2026-02-26T00:22:00.447189+00:00"
+        }
+      ]
+    },
+    {
+      "id": "phase-2-database",
+      "name": "Database Layer",
+      "type": "implementation",
+      "description": "Implement JPA entities and Spring Data repositories for all 5 tables",
+      "depends_on": [
+        "phase-1-infrastructure"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-2-1",
+          "description": "Create User entity with UUID PK and whitelist flag",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/entity/User.java",
+            "backend/src/main/java/com/prod/repository/UserRepository.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds"
+          },
+          "status": "completed",
+          "notes": "User entity and UserRepository created successfully.",
+          "updated_at": "2026-02-26T00:24:09.071263+00:00"
+        },
+        {
+          "id": "subtask-2-2",
+          "description": "Create AudioRecord entity with file metadata",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/entity/AudioRecord.java",
+            "backend/src/main/java/com/prod/repository/AudioRecordRepository.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds"
+          },
+          "status": "completed",
+          "notes": "AudioRecord entity and AudioRecordRepository created successfully.",
+          "updated_at": "2026-02-26T00:26:27.545973+00:00"
+        },
+        {
+          "id": "subtask-2-3",
+          "description": "Create ProcessingTask entity with status enum",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/entity/ProcessingTask.java",
+            "backend/src/main/java/com/prod/repository/ProcessingTaskRepository.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds"
+          },
+          "status": "completed",
+          "notes": "ProcessingTask entity and ProcessingTaskRepository created successfully.",
+          "updated_at": "2026-02-26T00:28:50.113769+00:00"
+        },
+        {
+          "id": "subtask-2-4",
+          "description": "Create AISummary entity with JSONB structured_data field",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/entity/AISummary.java",
+            "backend/src/main/java/com/prod/repository/AISummaryRepository.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds with JSONB mapping"
+          },
+          "status": "completed",
+          "notes": "Successfully created AISummary entity with JSONB structured_data field using @JdbcTypeCode(SqlTypes.JSON).",
+          "updated_at": "2026-02-26T00:31:39.398718+00:00"
+        },
+        {
+          "id": "subtask-2-5",
+          "description": "Create ActionItem entity with summary relationship",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/entity/ActionItem.java",
+            "backend/src/main/java/com/prod/repository/ActionItemRepository.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds"
+          },
+          "status": "completed",
+          "notes": "Successfully created ActionItem entity and ActionItemRepository.",
+          "updated_at": "2026-02-26T00:34:07.847909+00:00"
+        }
+      ]
+    },
+    {
+      "id": "phase-3-security",
+      "name": "Security Layer",
+      "type": "implementation",
+      "description": "Implement JWT authentication with whitelist-based OTP flow",
+      "depends_on": [
+        "phase-2-database"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-3-1",
+          "description": "Create JwtTokenProvider for JWT generation and validation",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/security/JwtTokenProvider.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds"
+          },
+          "status": "completed",
+          "notes": "Successfully created JwtTokenProvider class for JWT generation and validation.",
+          "updated_at": "2026-02-26T00:36:37.059934+00:00"
+        },
+        {
+          "id": "subtask-3-2",
+          "description": "Create JwtAuthenticationFilter for request validation",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/security/JwtAuthenticationFilter.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds"
+          },
+          "status": "completed",
+          "notes": "Successfully created JwtAuthenticationFilter class for request validation.",
+          "updated_at": "2026-02-26T00:38:55.063868+00:00"
+        },
+        {
+          "id": "subtask-3-3",
+          "description": "Create RedisConfig and OTPService for OTP storage",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/config/RedisConfig.java",
+            "backend/src/main/java/com/prod/service/OTPService.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds"
+          },
+          "status": "completed",
+          "notes": "Successfully created RedisConfig and OTPService for OTP storage.",
+          "updated_at": "2026-02-26T03:50:00.000000+00:00"
+        },
+        {
+          "id": "subtask-3-4",
+          "description": "Create AuthService with whitelist check and OTP flow",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/service/AuthService.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds"
+          },
+          "status": "completed",
+          "notes": "Successfully created AuthService with whitelist-based authentication flow.",
+          "updated_at": "2026-02-26T01:01:37.000000+00:00"
+        },
+        {
+          "id": "subtask-3-5",
+          "description": "Create SecurityConfig with JWT filter chain",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/config/SecurityConfig.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds"
+          },
+          "status": "completed",
+          "notes": "Successfully created SecurityConfig.java with JWT filter chain configuration.",
+          "updated_at": "2026-02-26T01:05:41.000000+00:00"
+        },
+        {
+          "id": "subtask-3-6",
+          "description": "Create DTOs and AuthController for login and OTP verification",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/dto/request/LoginRequest.java",
+            "backend/src/main/java/com/prod/dto/request/OTPVerifyRequest.java",
+            "backend/src/main/java/com/prod/dto/response/AuthResponse.java",
+            "backend/src/main/java/com/prod/controller/AuthController.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "api",
+            "method": "POST",
+            "url": "http://localhost:8080/api/auth/login",
+            "body": "{\"email\": \"test@example.com\"}",
+            "expected_status": 200
+          },
+          "status": "completed",
+          "notes": "Successfully created authentication DTOs and AuthController.",
+          "updated_at": "2026-02-26T04:11:00.000000+00:00"
+        }
+      ]
+    },
+    {
+      "id": "phase-4-ai-integration",
+      "name": "AI Integration",
+      "type": "implementation",
+      "description": "Integrate Spring AI with OpenRouter for Whisper and Claude",
+      "depends_on": [
+        "phase-1-infrastructure"
+      ],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-4-1",
+          "description": "Create SpringAIConfig for OpenRouter ChatClient beans",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/config/SpringAIConfig.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds"
+          },
+          "status": "completed",
+          "notes": "Successfully created SpringAIConfig.java with ChatClient beans for OpenRouter integration.",
+          "updated_at": "2026-02-26T06:15:00.000000+00:00"
+        },
+        {
+          "id": "subtask-4-2",
+          "description": "Create WhisperService for speech-to-text",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/service/WhisperService.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds"
+          },
+          "status": "completed",
+          "notes": "Successfully created WhisperService.java with audio transcription support using Spring AI.",
+          "updated_at": "2026-02-26T09:20:00.000000+00:00"
+        },
+        {
+          "id": "subtask-4-3",
+          "description": "Create ClaudeService for text analysis and structuring",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/service/ClaudeService.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds"
+          },
+          "status": "completed",
+          "notes": "Successfully created ClaudeService.java for text analysis and structured data extraction.",
+          "updated_at": "2026-02-26T09:25:00.000000+00:00"
+        }
+      ]
+    },
+    {
+      "id": "phase-5-async-processing",
+      "name": "Async Processing",
+      "type": "implementation",
+      "description": "Implement RabbitMQ producer-consumer for audio processing pipeline",
+      "depends_on": [
+        "phase-2-database",
+        "phase-4-ai-integration"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-5-1",
+          "description": "Create RabbitMQConfig for queue setup",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/config/RabbitMQConfig.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds"
+          },
+          "status": "completed",
+          "notes": "Successfully created RabbitMQConfig.java with comprehensive RabbitMQ infrastructure configuration.",
+          "updated_at": "2026-02-26T06:26:00.000000+00:00"
+        },
+        {
+          "id": "subtask-5-2",
+          "description": "Create AudioProcessingProducer to send tasks to queue",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/messaging/AudioProcessingProducer.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds"
+          },
+          "status": "completed",
+          "notes": "Successfully created AudioProcessingProducer for RabbitMQ message publishing.",
+          "updated_at": "2026-02-26T06:28:00.000000+00:00"
+        },
+        {
+          "id": "subtask-5-3",
+          "description": "Create AudioProcessingConsumer with Whisper and Claude integration",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/messaging/AudioProcessingConsumer.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds"
+          },
+          "status": "completed",
+          "notes": "Successfully created AudioProcessingConsumer with comprehensive Whisper and Claude integration.",
+          "updated_at": "2026-02-26T09:30:00.000000+00:00"
+        },
+        {
+          "id": "subtask-5-4",
+          "description": "Create AudioProcessingService for upload orchestration",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/service/AudioProcessingService.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds"
+          },
+          "status": "completed",
+          "notes": "Successfully created AudioProcessingService for upload orchestration with comprehensive validation, transaction management, and RabbitMQ integration.",
+          "updated_at": "2026-02-26T09:35:00.000000+00:00"
+        }
+      ]
+    },
+    {
+      "id": "phase-6-api-layer",
+      "name": "API Layer",
+      "type": "implementation",
+      "description": "Build REST controllers for audio upload and data retrieval",
+      "depends_on": [
+        "phase-3-security",
+        "phase-5-async-processing"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-6-1",
+          "description": "Create audio DTOs and AudioController",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/dto/request/AudioUploadRequest.java",
+            "backend/src/main/java/com/prod/dto/response/AudioRecordResponse.java",
+            "backend/src/main/java/com/prod/dto/response/ProcessingStatusResponse.java",
+            "backend/src/main/java/com/prod/controller/AudioController.java"
+          ],
+          "patterns_from": [
+            "backend/src/main/java/com/prod/controller/AuthController.java"
+          ],
+          "verification": {
+            "type": "api",
+            "method": "POST",
+            "url": "http://localhost:8080/api/audio/upload",
+            "expected_status": 401
+          },
+          "status": "completed",
+          "notes": "Successfully created audio DTOs (AudioUploadRequest, AudioRecordResponse, ProcessingStatusResponse) and AudioController with POST /api/audio/upload endpoint. Follows patterns from AuthController with proper validation, error handling, and comprehensive JavaDoc documentation. Build verification successful.",
+          "updated_at": "2026-02-26T10:00:00.000000+00:00"
+        },
+        {
+          "id": "subtask-6-2",
+          "description": "Create summary DTOs and SummaryController",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/dto/response/SummaryResponse.java",
+            "backend/src/main/java/com/prod/service/SummaryService.java",
+            "backend/src/main/java/com/prod/controller/SummaryController.java"
+          ],
+          "patterns_from": [
+            "backend/src/main/java/com/prod/controller/AuthController.java"
+          ],
+          "verification": {
+            "type": "api",
+            "method": "GET",
+            "url": "http://localhost:8080/api/summaries",
+            "expected_status": 401
+          },
+          "status": "completed",
+          "notes": "Successfully created SummaryResponse DTO, SummaryService with user isolation and pagination support, and SummaryController with endpoints for listing/retrieving summaries. Added findByUserId query method to AISummaryRepository. All endpoints follow established patterns from AuthController with proper validation, error handling, and comprehensive JavaDoc documentation.",
+          "updated_at": "2026-02-26T11:00:00.000000+00:00"
+        },
+        {
+          "id": "subtask-6-3",
+          "description": "Create StatusController with SSE endpoint for real-time updates",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/controller/StatusController.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "api",
+            "method": "GET",
+            "url": "http://localhost:8080/api/status/sse",
+            "expected_status": 401
+          },
+          "status": "completed",
+          "notes": "Successfully created StatusController with Server-Sent Events (SSE) endpoint at /api/status/sse for real-time audio processing status updates. The implementation uses 2-second polling interval, 30-minute connection timeout, thread-safe emitter tracking, and comprehensive error handling. Follows established patterns from AuthController and AudioController. Build verification successful.",
+          "updated_at": "2026-02-26T11:30:00.000000+00:00"
+        },
+        {
+          "id": "subtask-6-4",
+          "description": "Create CorsConfig for frontend access",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/config/CorsConfig.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds"
+          },
+          "status": "completed",
+          "notes": "Successfully created CorsConfig with configurable allowed origins, methods, headers, credentials support, and CORS properties added to application.yml. Follows established patterns with @Configuration, @Slf4j, and comprehensive JavaDoc documentation.",
+          "updated_at": "2026-02-26T11:45:00.000000+00:00"
+        },
+        {
+          "id": "subtask-6-5",
+          "description": "Create GlobalExceptionHandler for RFC 7807 error responses",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/java/com/prod/exception/GlobalExceptionHandler.java",
+            "backend/src/main/java/com/prod/exception/UnauthorizedException.java",
+            "backend/src/main/java/com/prod/exception/ProcessingException.java"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn compile",
+            "expected": "Compilation succeeds"
+          },
+          "status": "completed",
+          "notes": "Successfully created GlobalExceptionHandler with comprehensive RFC 7807 compliant error responses, UnauthorizedException for authorization failures, and ProcessingException for audio processing pipeline errors. The GlobalExceptionHandler handles all common exception types including WhitelistException, validation errors, authentication failures, and provides fallback handling for unexpected errors. All error responses follow RFC 7807 format with type, title, status, detail, instance, and timestamp fields. Build verification successful.",
+          "updated_at": "2026-02-26T12:00:00.000000+00:00"
+        }
+      ]
+    },
+    {
+      "id": "phase-7-database-migration",
+      "name": "Database Migration",
+      "type": "implementation",
+      "description": "Create Flyway migration for initial database schema",
+      "depends_on": [
+        "phase-2-database"
+      ],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-7-1",
+          "description": "Create Flyway migration SQL script for all tables",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [
+            "backend/src/main/resources/db/migration/V1__Initial_Schema.sql"
+          ],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn flyway:validate",
+            "expected": "Migration validation succeeds"
+          },
+          "status": "completed",
+          "notes": "Successfully created V1__Initial_Schema.sql Flyway migration script with all 5 tables (users, audio_records, processing_tasks, ai_summaries, action_items), UUID primary keys, foreign key constraints, indexes, GIN index on JSONB column, update timestamp triggers, CHECK constraints, and comprehensive documentation comments. Project compiles successfully with the migration in place.",
+          "updated_at": "2026-02-26T07:01:50.000000+00:00"
+        }
+      ]
+    },
+    {
+      "id": "phase-8-integration",
+      "name": "Integration & Testing",
+      "type": "integration",
+      "description": "End-to-end verification and comprehensive testing",
+      "depends_on": [
+        "phase-6-api-layer",
+        "phase-7-database-migration"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-8-1",
+          "description": "Verify full authentication flow (whitelist → OTP → JWT)",
+          "all_services": true,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "e2e",
+            "steps": [
+              "Start Docker Compose services",
+              "Create whitelisted user in database",
+              "POST /api/auth/login with whitelisted email",
+              "Verify OTP in Redis",
+              "POST /api/auth/verify with OTP",
+              "Receive JWT token",
+              "Use JWT to access protected endpoint"
+            ]
+          },
+          "status": "completed",
+          "notes": "Created comprehensive authentication flow tests including AuthFlowIntegrationTest (end-to-end), AuthServiceTest (unit tests), OTPServiceTest (unit tests), and JwtTokenProviderTest (unit tests). Added Testcontainers dependencies for integration testing. Created AUTH_FLOW_TEST_GUIDE.md for manual testing. All tests compile successfully.",
+          "updated_at": "2026-02-26T12:30:00.000000+00:00"
+        },
+        {
+          "id": "subtask-8-2",
+          "description": "Verify audio processing pipeline (upload → queue → AI → database)",
+          "all_services": true,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "e2e",
+            "steps": [
+              "Authenticate and get JWT",
+              "POST /api/audio/upload with audio metadata",
+              "Verify processing_task status is PENDING",
+              "Verify RabbitMQ queue receives message",
+              "Wait for consumer to process",
+              "Verify processing_task status becomes PROCESSING then COMPLETED",
+              "Verify ai_summaries table has structured data",
+              "Verify action_items are extracted"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-8-3",
+          "description": "Run unit and integration tests",
+          "service": "backend-spring",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd backend && mvn test",
+            "expected": "All tests pass"
+          },
+          "status": "pending"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_phases": 8,
+    "total_subtasks": 33,
+    "services_involved": [
+      "backend-spring"
+    ],
+    "infrastructure_services": [
+      "postgresql",
+      "redis",
+      "rabbitmq"
+    ],
+    "parallelism": {
+      "max_parallel_phases": 2,
+      "parallel_groups": [
+        {
+          "phases": [
+            "phase-4-ai-integration",
+            "phase-7-database-migration"
+          ],
+          "reason": "AI integration and database migration can run in parallel with security and async processing since both have minimal dependencies"
+        }
+      ],
+      "recommended_workers": 1,
+      "speedup_estimate": "Sequential execution recommended due to complex dependencies between phases"
+    },
+    "startup_command": "source auto-claude/.venv/bin/activate && python auto-claude/run.py --spec 001 --parallel 1"
+  },
+  "verification_strategy": {
+    "risk_level": "high",
+    "skip_validation": false,
+    "test_creation_phase": "post_implementation",
+    "test_types_required": [
+      "unit",
+      "integration",
+      "e2e"
+    ],
+    "security_scanning_required": true,
+    "staging_deployment_required": false,
+    "acceptance_criteria": [
+      "All unit tests pass with minimum 70% code coverage",
+      "Integration tests verify database operations and RabbitMQ flows",
+      "E2E tests verify complete authentication and audio processing pipelines",
+      "Security scan passes with no high-severity issues",
+      "Whitelist validation prevents unauthorized access",
+      "JWT authentication works correctly",
+      "Audio processing completes asynchronously without blocking HTTP requests",
+      "JSONB fields serialize/deserialize correctly",
+      "No API keys or secrets in logs",
+      "All endpoints follow RFC 7807 error format"
+    ],
+    "verification_steps": [
+      {
+        "name": "Unit Tests",
+        "command": "cd backend && mvn test -Dtest=*Test",
+        "expected_outcome": "All tests pass",
+        "type": "test",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Integration Tests",
+        "command": "cd backend && mvn test -Dtest=*IntegrationTest",
+        "expected_outcome": "All integration tests pass",
+        "type": "test",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Secrets Scan",
+        "command": "grep -r -i 'sk-.*\\|api_key.*=' backend/src --exclude-dir=target || echo 'No secrets found'",
+        "expected_outcome": "No secrets detected in code",
+        "type": "security",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Docker Services Health Check",
+        "command": "cd backend && docker-compose ps",
+        "expected_outcome": "All services healthy",
+        "type": "infrastructure",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Spring Boot Health Check",
+        "command": "curl -f http://localhost:8080/actuator/health",
+        "expected_outcome": "Status UP",
+        "type": "infrastructure",
+        "required": true,
+        "blocking": true
+      }
+    ],
+    "reasoning": "High-risk backend with security-critical authentication (whitelist + OTP + JWT), external API integrations (OpenRouter), and async processing (RabbitMQ). Requires comprehensive testing at all levels (unit, integration, E2E) and security scanning to validate API key handling and whitelist enforcement."
+  },
+  "qa_acceptance": {
+    "unit_tests": {
+      "required": true,
+      "commands": [
+        "cd backend && mvn test -Dtest=*Test"
+      ],
+      "minimum_coverage": 70,
+      "critical_areas": [
+        "AuthService whitelist validation",
+        "OTPService Redis TTL",
+        "JwtTokenProvider generation and validation",
+        "AISummary JSONB serialization"
+      ]
+    },
+    "integration_tests": {
+      "required": true,
+      "commands": [
+        "cd backend && mvn test -Dtest=*IntegrationTest"
+      ],
+      "services_to_test": [
+        "backend-spring",
+        "postgresql",
+        "redis",
+        "rabbitmq"
+      ],
+      "critical_flows": [
+        "Auth flow: OTP request → Redis storage → JWT issuance",
+        "Audio upload: Metadata save → RabbitMQ queue → Processing",
+        "AI pipeline: Whisper → Claude → Database storage"
+      ]
+    },
+    "e2e_tests": {
+      "required": true,
+      "commands": [
+        "cd backend && mvn test -Dtest=*E2ETest"
+      ],
+      "flows": [
+        "Full authentication (whitelist → OTP → JWT → protected endpoint)",
+        "Audio processing pipeline (upload → queue → AI → summary retrieval)"
+      ]
+    },
+    "api_verification": {
+      "required": true,
+      "endpoints": [
+        {
+          "method": "POST",
+          "path": "/api/auth/login",
+          "expected_status": 200,
+          "requires_auth": false
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/verify",
+          "expected_status": 200,
+          "requires_auth": false
+        },
+        {
+          "method": "POST",
+          "path": "/api/audio/upload",
+          "expected_status": 401,
+          "requires_auth": true
+        },
+        {
+          "method": "GET",
+          "path": "/api/audio",
+          "expected_status": 401,
+          "requires_auth": true
+        },
+        {
+          "method": "GET",
+          "path": "/api/summaries",
+          "expected_status": 401,
+          "requires_auth": true
+        },
+        {
+          "method": "GET",
+          "path": "/actuator/health",
+          "expected_status": 200,
+          "requires_auth": false
+        }
+      ]
+    },
+    "database_verification": {
+      "required": true,
+      "checks": [
+        "All 5 tables exist (users, audio_records, processing_tasks, ai_summaries, action_items)",
+        "UUID primary keys are generated correctly",
+        "Foreign key relationships are enforced",
+        "JSONB column in ai_summaries works correctly",
+        "Indexes exist on users.email and audio_records.user_id"
+      ]
+    },
+    "infrastructure_verification": {
+      "required": true,
+      "checks": [
+        "PostgreSQL container is healthy and accepting connections",
+        "Redis container is healthy (PING returns PONG)",
+        "RabbitMQ container is healthy (management UI accessible)",
+        "Spring Boot application starts without errors",
+        "All Docker services can communicate via internal network"
+      ]
+    },
+    "security_verification": {
+      "required": true,
+      "checks": [
+        "Non-whitelisted emails cannot request OTP",
+        "Expired OTPs are rejected",
+        "Expired JWTs are rejected",
+        "Protected endpoints return 401 without JWT",
+        "No API keys or secrets in logs or code",
+        "CORS configured for frontend origin"
+      ]
+    }
+  },
+  "qa_signoff": null,
+  "executionPhase": "coding",
+  "status": "in_progress",
+  "planStatus": "in_progress",
+  "updated_at": "2026-02-26T07:02:36.899Z",
+  "xstateState": "coding"
+}
