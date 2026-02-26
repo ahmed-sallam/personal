@@ -2,7 +2,11 @@ package com.prod.repository;
 
 import com.prod.entity.AISummary;
 import com.prod.entity.AudioRecord;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -41,4 +45,18 @@ public interface AISummaryRepository extends JpaRepository<AISummary, UUID> {
      * @return true if summary exists, false otherwise
      */
     boolean existsByAudioRecord(AudioRecord audioRecord);
+
+    /**
+     * Find all AI summaries for a specific user.
+     * Joins through audio record to get user's summaries.
+     *
+     * @param userId the user UUID
+     * @param pageable pagination and sorting parameters
+     * @return Page of AI summaries for the user
+     */
+    @Query("SELECT s FROM AISummary s " +
+           "JOIN s.audioRecord ar " +
+           "WHERE ar.user.id = :userId " +
+           "ORDER BY s.createdAt DESC")
+    Page<AISummary> findByUserId(@Param("userId") UUID userId, Pageable pageable);
 }
