@@ -19,6 +19,9 @@ D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-accor
 D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\entity\AudioRecord.java
 D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\entity\ProcessingTask.java
 D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\entity\User.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\exception\GlobalExceptionHandler.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\exception\ProcessingException.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\exception\UnauthorizedException.java
 D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\exception\WhitelistException.java
 D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\messaging\AudioProcessingConsumer.java
 D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\messaging\AudioProcessingProducer.java

@@ -670,7 +670,9 @@
               "Verify action_items are extracted"
             ]
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created comprehensive audio processing pipeline integration tests. Added AudioProcessingPipelineIntegrationTest with 10 test cases covering complete pipeline flow, authentication, RabbitMQ connectivity, processing task lifecycle, AI summary storage, and error handling. Added AudioProcessingServiceTest with 12 unit tests covering validation, error cases, and business logic. Added RabbitMQ Testcontainers dependency. Created AUDIO_PROCESSING_TEST_GUIDE.md for manual testing instructions. All tests compile successfully.",
+          "updated_at": "2026-02-26T13:00:00.000000+00:00"
         },
         {
           "id": "subtask-8-3",
@@ -901,6 +903,6 @@
   "executionPhase": "coding",
   "status": "in_progress",
   "planStatus": "in_progress",
-  "updated_at": "2026-02-26T07:02:36.899Z",
+  "updated_at": "2026-02-26T07:10:05.577Z",
   "xstateState": "coding"
 }
