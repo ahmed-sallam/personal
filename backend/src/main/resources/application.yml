@@ -79,6 +79,14 @@ jwt:
   secret: ${JWT_SECRET_KEY}
   expiration: ${JWT_EXPIRATION:3600000}
 
+# OTP Configuration
+app:
+  otp:
+    length: 6
+    expiration-minutes: 5
+    max-retries: 3
+    retry-window-hours: 1
+
 # Server Configuration
 server:
   port: 8080
