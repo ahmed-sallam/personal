@@ -188,6 +188,9 @@ class AudioProcessingServiceTest {
     @Test
     @DisplayName("Upload with empty file key should throw exception")
     void testUploadWithEmptyFileKey() {
+        // Arrange - user lookup happens before validation
+        when(userRepository.findById(userId)).thenReturn(Optional.of(testUser));
+
         // Act & Assert
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
@@ -210,6 +213,9 @@ class AudioProcessingServiceTest {
     @Test
     @DisplayName("Upload with null file name should throw exception")
     void testUploadWithNullFileName() {
+        // Arrange - user lookup happens before validation
+        when(userRepository.findById(userId)).thenReturn(Optional.of(testUser));
+
         // Act & Assert
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
@@ -229,6 +235,9 @@ class AudioProcessingServiceTest {
     @Test
     @DisplayName("Upload with zero duration should throw exception")
     void testUploadWithZeroDuration() {
+        // Arrange - user lookup happens before validation
+        when(userRepository.findById(userId)).thenReturn(Optional.of(testUser));
+
         // Act & Assert
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
@@ -248,6 +257,9 @@ class AudioProcessingServiceTest {
     @Test
     @DisplayName("Upload with negative duration should throw exception")
     void testUploadWithNegativeDuration() {
+        // Arrange - user lookup happens before validation
+        when(userRepository.findById(userId)).thenReturn(Optional.of(testUser));
+
         // Act & Assert
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
@@ -267,6 +279,9 @@ class AudioProcessingServiceTest {
     @Test
     @DisplayName("Upload with invalid MIME type should throw exception")
     void testUploadWithInvalidMimeType() {
+        // Arrange - user lookup happens before validation
+        when(userRepository.findById(userId)).thenReturn(Optional.of(testUser));
+
         // Act & Assert
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
@@ -286,6 +301,9 @@ class AudioProcessingServiceTest {
     @Test
     @DisplayName("Upload with zero file size should throw exception")
     void testUploadWithZeroFileSize() {
+        // Arrange - user lookup happens before validation
+        when(userRepository.findById(userId)).thenReturn(Optional.of(testUser));
+
         // Act & Assert
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
@@ -342,9 +360,17 @@ class AudioProcessingServiceTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(testUser));
         when(audioRecordRepository.save(any(AudioRecord.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
+                .thenAnswer(invocation -> {
+                    AudioRecord record = invocation.getArgument(0);
+                    record.setId(UUID.randomUUID());
+                    return record;
+                });
         when(processingTaskRepository.save(any(ProcessingTask.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
+                .thenAnswer(invocation -> {
+                    ProcessingTask task = invocation.getArgument(0);
+                    task.setId(UUID.randomUUID());
+                    return task;
+                });
         doNothing().when(audioProcessingProducer).sendProcessingTask(any(UUID.class));
 
         // Act
@@ -376,9 +402,17 @@ class AudioProcessingServiceTest {
         // Arrange
         when(userRepository.findById(userId)).thenReturn(Optional.of(testUser));
         when(audioRecordRepository.save(any(AudioRecord.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
+                .thenAnswer(invocation -> {
+                    AudioRecord record = invocation.getArgument(0);
+                    record.setId(UUID.randomUUID());
+                    return record;
+                });
         when(processingTaskRepository.save(any(ProcessingTask.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
+                .thenAnswer(invocation -> {
+                    ProcessingTask task = invocation.getArgument(0);
+                    task.setId(UUID.randomUUID());
+                    return task;
+                });
         doNothing().when(audioProcessingProducer).sendProcessingTask(any(UUID.class));
 
         // Act
@@ -419,9 +453,17 @@ class AudioProcessingServiceTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(testUser));
         when(audioRecordRepository.save(any(AudioRecord.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
+                .thenAnswer(invocation -> {
+                    AudioRecord record = invocation.getArgument(0);
+                    record.setId(UUID.randomUUID());
+                    return record;
+                });
         when(processingTaskRepository.save(any(ProcessingTask.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
+                .thenAnswer(invocation -> {
+                    ProcessingTask task = invocation.getArgument(0);
+                    task.setId(UUID.randomUUID());
+                    return task;
+                });
         doNothing().when(audioProcessingProducer).sendProcessingTask(any(UUID.class));
 
         // Act & Assert - All valid MIME types should be accepted

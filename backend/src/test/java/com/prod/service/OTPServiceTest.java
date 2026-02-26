@@ -94,8 +94,8 @@ class OTPServiceTest {
         // Act
         otpService.generateAndStoreOTP(TEST_EMAIL);
 
-        // Assert
-        verify(valueOperations).set(eq("otp:" + TEST_EMAIL), anyString(), eq(OTP_EXPIRATION_MINUTES), eq(TimeUnit.MINUTES));
+        // Assert - RedisTemplate.set() takes a long for timeout, so we need to match the long value
+        verify(valueOperations).set(eq("otp:" + TEST_EMAIL), anyString(), eq((long) OTP_EXPIRATION_MINUTES), eq(TimeUnit.MINUTES));
     }
 
     @Test

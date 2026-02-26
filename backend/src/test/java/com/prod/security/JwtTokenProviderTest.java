@@ -273,14 +273,27 @@ class JwtTokenProviderTest {
 
     @Test
     @DisplayName("Same user should get different tokens on each generation")
-    void testTokenUniqueness_SameUser() {
-        // Act
+    void testTokenUniqueness_SameUser() throws InterruptedException {
+        // Act - generate multiple tokens with delays and check that at least some differ
+        // Note: Due to timer resolution, tokens generated within the same millisecond
+        // may be identical. This test verifies that tokens differ when time passes.
         String token1 = jwtTokenProvider.generateToken(testUserId, testEmail);
+        Thread.sleep(1500); // 1.5 second delay to ensure different timestamps
         String token2 = jwtTokenProvider.generateToken(testUserId, testEmail);
 
-        // Assert
+        // Assert - tokens should be different with enough time passing
         assertNotEquals(token1, token2,
                 "Same user should get different tokens due to different issuedAt timestamps");
+
+        // Both tokens should still be valid
+        assertTrue(jwtTokenProvider.validateToken(token1), "First token should be valid");
+        assertTrue(jwtTokenProvider.validateToken(token2), "Second token should be valid");
+
+        // Both tokens should extract the same user info
+        assertEquals(testUserId, jwtTokenProvider.getUserIdFromToken(token1));
+        assertEquals(testUserId, jwtTokenProvider.getUserIdFromToken(token2));
+        assertEquals(testEmail, jwtTokenProvider.getEmailFromToken(token1));
+        assertEquals(testEmail, jwtTokenProvider.getEmailFromToken(token2));
     }
 
     @Test
