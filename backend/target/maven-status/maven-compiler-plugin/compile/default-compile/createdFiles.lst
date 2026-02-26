@@ -16,3 +16,4 @@ com\prod\config\RedisConfig.class
 com\prod\entity\User.class
 com\prod\security\JwtTokenProvider.class
 com\prod\service\OTPService.class
+com\prod\config\SecurityConfig.class
