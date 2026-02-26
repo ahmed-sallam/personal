@@ -1,3 +1,4 @@
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\config\RabbitMQConfig.java
 D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\config\RedisConfig.java
 D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\config\SecurityConfig.java
 D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\config\SpringAIConfig.java
@@ -11,6 +12,8 @@ D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-accor
 D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\entity\ProcessingTask.java
 D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\entity\User.java
 D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\exception\WhitelistException.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\messaging\AudioProcessingConsumer.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\messaging\AudioProcessingProducer.java
 D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\ProductivityTrackerApplication.java
 D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\repository\ActionItemRepository.java
 D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\repository\AISummaryRepository.java

@@ -1,3 +1,5 @@
+com\prod\config\RabbitMQConfig.class
+com\prod\messaging\AudioProcessingProducer.class
 com\prod\dto\request\OTPVerifyRequest.class
 com\prod\repository\ProcessingTaskRepository.class
 com\prod\service\ClaudeService$1.class
@@ -23,6 +25,7 @@ com\prod\repository\AISummaryRepository.class
 com\prod\dto\response\AuthResponse.class
 com\prod\entity\ProcessingTask.class
 com\prod\entity\ActionItem.class
+com\prod\messaging\AudioProcessingConsumer.class
 com\prod\entity\User.class
 com\prod\config\SpringAIConfig.class
 com\prod\dto\response\AuthResponse$AuthResponseBuilder.class

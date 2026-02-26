@@ -86,6 +86,25 @@ app:
     expiration-minutes: 5
     max-retries: 3
     retry-window-hours: 1
+  # RabbitMQ Queue Configuration
+  rabbitmq:
+    exchange:
+      audio: audio.exchange
+    queue:
+      audio:
+        processing: audio.processing.queue
+        dlq: audio.processing.dlq
+      ttl: 86400000 # 24 hours in milliseconds
+      max-length: 1000
+    routing-key:
+      audio: audio.process
+      dlq: audio.process.dlq
+  # Audio Storage and Processing Configuration
+  audio:
+    storage:
+      path: ${AUDIO_STORAGE_PATH:./storage/audio}
+    processing:
+      max-retries: 3
 
 # Server Configuration
 server:

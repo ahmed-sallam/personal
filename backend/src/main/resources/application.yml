@@ -99,6 +99,12 @@ app:
     routing-key:
       audio: audio.process
       dlq: audio.process.dlq
+  # Audio Storage and Processing Configuration
+  audio:
+    storage:
+      path: ${AUDIO_STORAGE_PATH:./storage/audio}
+    processing:
+      max-retries: 3
 
 # Server Configuration
 server:
