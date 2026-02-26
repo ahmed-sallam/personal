@@ -1,0 +1,17 @@
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\config\RedisConfig.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\entity\ActionItem.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\entity\AISummary.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\entity\AudioRecord.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\entity\ProcessingTask.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\entity\User.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\exception\WhitelistException.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\ProductivityTrackerApplication.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\repository\ActionItemRepository.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\repository\AISummaryRepository.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\repository\AudioRecordRepository.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\repository\ProcessingTaskRepository.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\repository\UserRepository.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\security\JwtAuthenticationFilter.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\security\JwtTokenProvider.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\service\AuthService.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\service\OTPService.java

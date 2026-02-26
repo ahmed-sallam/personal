@@ -1,0 +1,25 @@
+{
+  "active": true,
+  "spec": "001-implement-backend-according-to-docs",
+  "state": "building",
+  "subtasks": {
+    "completed": 12,
+    "total": 28,
+    "in_progress": 1,
+    "failed": 0
+  },
+  "phase": {
+    "current": "Security Layer",
+    "id": null,
+    "total": 6
+  },
+  "workers": {
+    "active": 0,
+    "max": 1
+  },
+  "session": {
+    "number": 2,
+    "started_at": "2026-02-26T03:46:57.473703"
+  },
+  "last_update": "2026-02-26T03:52:54.293465"
+}
