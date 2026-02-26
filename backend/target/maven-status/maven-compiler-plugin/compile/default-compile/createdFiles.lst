@@ -1,12 +1,15 @@
 com\prod\dto\request\OTPVerifyRequest.class
 com\prod\repository\ProcessingTaskRepository.class
+com\prod\service\ClaudeService$1.class
 com\prod\dto\request\LoginRequest.class
 com\prod\entity\ProcessingTask$ProcessingStatus.class
 com\prod\entity\AudioRecord.class
 com\prod\repository\UserRepository.class
+com\prod\service\WhisperService.class
 com\prod\ProductivityTrackerApplication.class
 com\prod\security\JwtAuthenticationFilter.class
 com\prod\config\RedisConfig.class
+com\prod\service\ClaudeService.class
 com\prod\controller\AuthController.class
 com\prod\security\JwtTokenProvider.class
 com\prod\service\OTPService.class

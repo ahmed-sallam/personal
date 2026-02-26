@@ -20,4 +20,6 @@ D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-accor
 D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\security\JwtAuthenticationFilter.java
 D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\security\JwtTokenProvider.java
 D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\service\AuthService.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\service\ClaudeService.java
 D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\service\OTPService.java
+D:\dev21062025\personal\.auto-claude\worktrees\tasks\001-implement-backend-according-to-docs\backend\src\main\java\com\prod\service\WhisperService.java
