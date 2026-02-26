@@ -5,9 +5,12 @@ import org.springframework.ai.anthropic.AnthropicChatModel;
 import org.springframework.ai.anthropic.AnthropicChatOptions;
 import org.springframework.ai.anthropic.api.AnthropicApi;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.openai.OpenAiAudioTranscriptionModel;
+import org.springframework.ai.openai.OpenAiAudioTranscriptionOptions;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.ai.openai.api.OpenAiApi;
+import org.springframework.ai.openai.api.OpenAiAudioApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -134,6 +137,49 @@ public class SpringAIConfig {
     public ChatClient whisperClient(OpenAiChatModel whisperChatModel) {
         log.debug("Creating Whisper ChatClient bean");
         return ChatClient.create(whisperChatModel);
+    }
+
+    /**
+     * Configure OpenAI Audio Transcription Model for Whisper via OpenRouter.
+     *
+     * This bean creates an OpenAiAudioTranscriptionModel specifically designed
+     * for audio-to-text transcription using the Whisper model. Unlike the chat
+     * model, this audio transcription model handles audio files directly and
+     * returns transcribed text.
+     *
+     * Model: openai/whisper-large-v3
+     * - Supports 96+ languages (English, Arabic, Spanish, etc.)
+     * - Handles formats: MP3, MP4, MPEG, MPGA, M4A, WAV, WEBM
+     * - Auto-detects language and adds punctuation
+     * - Maximum file size: 25 MB
+     *
+     * Usage Example in WhisperService:
+     * <pre>{@code
+     * OpenAiAudioTranscriptionOptions options = OpenAiAudioTranscriptionOptions.builder()
+     *     .withLanguage("en")
+     *     .build();
+     *
+     * AudioTranscriptionPrompt prompt = new AudioTranscriptionPrompt(audioResource, options);
+     * String transcription = transcriptionModel.call(prompt).getResult().getOutput();
+     * }</pre>
+     *
+     * @return configured OpenAiAudioTranscriptionModel for audio transcription
+     * @see com.prod.service.WhisperService
+     */
+    @Bean
+    public OpenAiAudioTranscriptionModel whisperTranscriptionModel() {
+        log.info("Configuring Whisper Audio Transcription Model: baseUrl={}", OPENROUTER_BASE_URL);
+
+        // Use the single argument constructor (apiKey only)
+        // The baseUrl should be configured via application.properties
+        // spring.ai.openai.base-url=https://openrouter.ai/api/v1
+        OpenAiAudioApi openAiAudioApi = new OpenAiAudioApi(openAiApiKey);
+
+        // Create default options for audio transcription
+        OpenAiAudioTranscriptionOptions defaultOptions = OpenAiAudioTranscriptionOptions.builder()
+                .build();
+
+        return new OpenAiAudioTranscriptionModel(openAiAudioApi, defaultOptions);
     }
 
     /**
