@@ -19,6 +19,7 @@ com\prod\dto\response\AudioRecordResponse.class
 com\prod\ProductivityTrackerApplication.class
 com\prod\security\JwtAuthenticationFilter.class
 com\prod\config\RedisConfig.class
+com\prod\config\CorsConfig.class
 com\prod\service\ClaudeService.class
 com\prod\controller\AuthController.class
 com\prod\security\JwtTokenProvider.class
